@@ -219,6 +219,20 @@ target_link_libraries(${wide_angle_camera_target}
     gz-transport${GZ_TRANSPORT_VER}::gz-transport${GZ_TRANSPORT_VER}
 )
 
+set(multibeam_sonar_sources MultibeamSonarSensor.cc)
+gz_add_component(multibeam_sonar
+  SOURCES ${multibeam_sonar_sources}
+  DEPENDS_ON_COMPONENTS camera
+  GET_TARGET_NAME multibeam_sonar_target
+)
+target_compile_definitions(${multibeam_sonar_target} PUBLIC MultibeamSonarSensor_EXPORTS)
+target_link_libraries(${multibeam_sonar_target}
+  PRIVATE
+    ${camera_target}
+    gz-msgs${GZ_MSGS_VER}::gz-msgs${GZ_MSGS_VER}
+    gz-transport${GZ_TRANSPORT_VER}::gz-transport${GZ_TRANSPORT_VER}
+)
+
 # Build the unit tests.
 gz_build_tests(TYPE UNIT SOURCES ${gtest_sources} LIB_DEPS ${rendering_target})
 
